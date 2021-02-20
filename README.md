@@ -1,2 +1,0 @@
-# cOSAS
-Ejemplos de figuras 
