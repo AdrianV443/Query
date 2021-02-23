@@ -1,0 +1,47 @@
+install.packages("rjson")
+library(rjson)
+install.packages("rvest")
+library(rvest)
+install.packages("tidyverse")
+library(tidyverse)
+
+file <- read_html("https://www.glassdoor.com.mx/Sueldos/data-scientist-sueldo-SRCH_KO0,14.htm")
+
+# Leemos el html
+tables <- html_nodes(file, "table")
+tables
+
+head (tables)
+table1 <- html_table(tables[1], fill = TRUE)
+table1
+
+str(table1)
+table1[[1]]
+tabla<- table1[[1]]
+
+library(dplyr)
+
+tabla<-mutate(tabla,Sueldo=gsub("MXN","",Sueldo))
+tabla
+
+
+tabla<-mutate(tabla,Sueldo=gsub("mes","",Sueldo))
+tabla
+
+tabla<-mutate(tabla,Sueldo=gsub("\\$","",Sueldo))
+tabla
+
+tabla<-mutate(tabla,Sueldo=gsub("\\/","",Sueldo))
+tabla
+
+tabla<-mutate(tabla,Sueldo=gsub("\\,","",Sueldo))
+tabla
+
+str(tabla)
+
+tabla<-mutate(tabla,Sueldo=as.numeric(Sueldo))
+str(tabla)
+
+tabla[order(tabla$Sueldo),]
+
+hist(tabla$Sueldo)
